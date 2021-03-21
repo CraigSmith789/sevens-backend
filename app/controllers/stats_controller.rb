@@ -20,6 +20,20 @@ class StatsController < ApplicationController
     end
   end
 
+  def update
+    stat = Stat.find(params[:id])
+    stat.update(won: stat.won + 1)
+    allStats = Stat.all
+    
+    allStats.each do |stat|
+      stat.update(played: stat.played + 1)
+    end
+
+    render json: stat
+
+  end
+
+
   def destroy 
     stat = Stat.find(params[:id])
     stat.destroy 
@@ -28,6 +42,6 @@ end
   private 
 
     def stat_params
-        params.require(:stat).permit(:name, :played, :won)
+        params.permit(:name, :played, :won, :stat, :id)
     end
 end
